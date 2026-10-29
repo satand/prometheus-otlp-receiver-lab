@@ -1,1 +1,3 @@
 /.vscode
+/quarkus-metrics-app/target
+/quarkus-micrometer-app/target
