@@ -1,0 +1,32 @@
+prometheus:
+  prometheusSpec:
+    enableRemoteWriteReceiver: true
+    additionalArgs:
+      - name: web.enable-otlp-receiver
+  service:
+    type: NodePort
+    nodePort: 30090
+
+alertmanager:
+  enabled: false
+
+grafana:
+  enabled: false
+
+nodeExporter:
+  enabled: false
+
+kubeStateMetrics:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubeProxy:
+  enabled: false
+
+kubeEtcd:
+  enabled: false

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-metrics-app
+  namespace: default
+  labels:
+    app: quarkus-metrics-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-metrics-app
+  template:
+    metadata:
+      labels:
+        app: quarkus-metrics-app
+    spec:
+      containers:
+        - name: quarkus-metrics-app
+          image: localhost/quarkus-metrics-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-metrics-app
+  namespace: default
+  labels:
+    app: quarkus-metrics-app
+spec:
+  selector:
+    app: quarkus-metrics-app
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+  type: ClusterIP
